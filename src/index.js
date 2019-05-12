@@ -1,12 +1,23 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import * as THREE from 'three';
+import Poul from './components/poul';
 import './index.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+const renderer = new THREE.WebGLRenderer();
+renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.setPixelRatio(window.devicePixelRatio);
+document.body.appendChild(renderer.domElement);
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
+// 初始化场景
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+camera.position.z = 5;
+
+const poul = new Poul();
+scene.add(poul);
+
+const animate = () => {
+  window.requestAnimationFrame(animate);
+  renderer.render(scene, camera);
+};
+
+animate();
