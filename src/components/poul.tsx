@@ -1,6 +1,7 @@
 import {
   Mesh, PlaneBufferGeometry, ShaderMaterial, TextureLoader,
 } from 'three';
+import Boat from './boat.tsx';
 
 const vertexShader = `
 varying vec2 vUv;
@@ -13,10 +14,11 @@ varying vec2 vUv;
 uniform sampler2D tBorder;
 void main() {
     float border = 1.0 - texture2D( tBorder, vUv ).r;
-    gl_FragColor = vec4(0.1, 0.2, 1.0, border);
+    gl_FragColor = vec4(0.1, 0.2, 0.8, border);
 }`;
-export default function Poul() {
-  const geometry = new PlaneBufferGeometry(2, 2, 10, 10);
+export default function Poul(scene) {
+  // 湖水本体
+  const geometry = new PlaneBufferGeometry(10, 10, 10, 10);
   const bTexture = new TextureLoader().load('./img/poul.jpg');
   const material = new ShaderMaterial({
     uniforms: {
@@ -27,5 +29,13 @@ export default function Poul() {
   });
   material.transparent = true;
   const plane = new Mesh(geometry, material);
+  plane.name = 'poul';
+  plane.rotateX(-Math.PI / 2);
+  scene.add(plane);
+
+  // 船只
+  const boat0 = new Boat('boat_0');
+  plane.add(boat0.mesh);
+
   return plane;
 }
