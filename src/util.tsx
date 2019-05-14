@@ -1,15 +1,12 @@
-/* eslint-disable func-names */
-import * as THREE from 'three';
+import { Object3D } from "three";
 
-THREE.Object3D.prototype.getAllChildren = function () {
-  const children = [];
-  const pushChildren = (node) => {
+/* eslint-disable func-names */
+export const getAllChildren = (node: Object3D) => {
+  const children: Object3D[] = [];
+  const pushChildren = (node: Object3D) => {
     children.push(node);
     if (node.children) node.children.forEach(child => pushChildren(child));
   };
-  pushChildren(this);
+  pushChildren(node);
   return children;
 };
-
-export const add = (a: number, b: number) => a + b;
-export const add2 = (a, b) => a + b;

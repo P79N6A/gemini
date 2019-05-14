@@ -1,12 +1,11 @@
 /* eslint-disable no-unused-vars */
 import * as THREE from 'three';
 import OrbitControls from 'three-orbitcontrols';
-import { add } from './util';
-import CameraRaycaster from './components/ray.tsx';
-import Poul from './components/poul.tsx';
+import { getAllChildren } from './util';
+import CameraRaycaster from './components/ray';
+import Poul from './components/poul';
 import './index.css';
 
-console.log(add(1, '2'));
 
 const renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
@@ -38,14 +37,14 @@ scene.add(lights[2]);
 const poul = new Poul(scene);
 
 // 点击拾取
-const cameraRaycaster = new CameraRaycaster(camera, scene.getAllChildren());
+const cameraRaycaster = new CameraRaycaster(camera, getAllChildren(scene));
 
 document.addEventListener('click', (e) => {
   const mouse = new THREE.Vector2();
   mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
   mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
   const result = cameraRaycaster.raycast(mouse);
-  console.log(result[0].object.name);
+  console.log(result && result[0] && result[0].object.name);
 });
 
 const animate = () => {
